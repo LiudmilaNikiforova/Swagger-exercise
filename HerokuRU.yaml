@@ -1,0 +1,69 @@
+openapi: 3.0.0
+info:
+  version: '1.0.0'
+  title: 'HerokuRU'
+  description: 'Allows to obtain information about availability of the requested vehicle in head company'
+  contact:
+    name: Lidmila Nikiforova
+    email: nikiforova296@gmail.com
+
+# Added by API Auto Mocking Plugin
+servers:
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/megafondz/HerokuRU/1.0.0
+  - description: API of the head company
+    url: https://mvrp.herokuapp.com/api
+  
+paths: 
+  /car:
+    get:
+     description: Get information on the availability of cars in head company
+     parameters:
+        - name: plateNumber
+          in: query
+          description: Car identificator
+          schema:
+           type: string
+           example: EPE68ET
+
+     responses:
+      200: 
+       description: Result
+       content:
+        application/json:
+          schema:
+           oneOf:
+           - $ref: '#/components/schemas/CarIsFound'
+           - $ref: '#/components/schemas/CarIsNotFound'
+          examples:
+           success:
+             summary: If the car is found
+             value:
+               result: true
+           nosuccess:
+             summary: If the car is not found
+             value:
+               result: false
+
+components:
+   schemas:
+     CarIsFound:
+       type: object
+       properties:
+         result:
+           type: boolean
+           enum: [true]
+         token:
+          type: string
+       required:
+        - result
+        - token
+     CarIsNotFound:
+       type: object
+       properties:
+         result:
+           type: boolean
+           enum: [false]
+         token:
+          type: string
+          example: ""
