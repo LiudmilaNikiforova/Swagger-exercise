@@ -1,0 +1,64 @@
+openapi: 3.0.0
+info:
+  version: '1.0.0'
+  title: ''
+  description: 'Allows to get information about audio track from an external database'
+# Added by API Auto Mocking Plugin
+servers:
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/exercise2/AudioSystemB/1.0.0
+  - description: External DataBase LastFM
+    url: http://ws.audioscrobbler.com/
+
+paths:
+ /2.0/:  
+   get:
+     parameters: 
+     - in: query
+       name: method
+       schema:
+         type: string
+         enum: [track.getInfo]
+       required: true
+     - in: query
+       name: api_key
+       schema:
+         type: string
+         enum: [e200b2a164c9b2cdb3695d6fd149343c]
+       required: true
+     - in: query
+       name: artist
+       schema:
+         type: string
+         example: cher
+       required: true
+     - in: query
+       name: track
+       schema:
+         type: string
+         example: believe
+       required: true
+     responses:
+      200: 
+       description: Result
+       content:
+        application/json:
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                track_name:
+                  type: string
+                artist_name:
+                  type: string
+                duration:
+                  type: integer
+                number_of_listeners:
+                  type: integer
+                playconut:
+                  type: integer
+                album_title:
+                  type: string
+                album_position:
+                  type: integer
