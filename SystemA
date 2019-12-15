@@ -1,0 +1,88 @@
+openapi: 3.0.0
+info:
+  version: '1.0.0'
+  title: 'AudioSystems'
+  description: 'Allows to upload audio files'
+# Added by API Auto Mocking Plugin
+servers:
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/exercise2/AudioSystems/1.0.0
+  - description: Audio file cataloging system
+    url: http://example.com
+paths:
+ /tracks/{trackID}/uploadTrack:
+   post:
+     summary: Uploads an audio file
+     parameters:
+        - in: path
+          name: trackID
+          schema:
+            type: integer
+          required: true
+          description: Numeric ID of the track
+     requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                trackName:
+                  type: string
+                artistName:
+                  type: string
+                genre:
+                  type: string
+                year:
+                 type: integer
+                fileName:
+                  type: string
+                  format: binary
+     responses:
+       '200':
+        description: File is uploaded
+        content:
+         audio/mpeg:
+           schema:
+             type: string
+             format: binary
+ /tracks:
+   get:
+     parameters:
+     - name: genre
+       in: path
+       description: genre of audio that need to be considered for filter
+       required: true
+       schema:
+         type: array
+         items:
+           type: string
+           enum:
+           - pop
+           - rock
+           - hip-hop
+           - electronic
+           - jazz
+     responses:
+      '200':
+        description: successful operation
+        content:
+         application/json:
+          schema:
+           type: array
+           items:
+            type: object
+            properties:
+              trackName:
+                type: string
+              artistName:
+                type: string
+              genre:
+                type: string
+                enum:
+                - pop
+                - rock
+                - hip-hop
+                - electronic
+                - jazz
+              year:
+                 type: integer
